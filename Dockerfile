@@ -1,3 +1,5 @@
+FROM composer22/envtpl AS envtpl
+
 FROM jenkinsci/jnlp-slave:alpine
 
 # kubectl - Must be one version plus or minus EKS version.
@@ -48,3 +50,5 @@ RUN apk --update-cache update \
   && echo "====== Final cleanup ======" \
   && chmod +x /usr/local/bin/kubectl /usr/local/bin/aws-iam-authenticator /usr/local/bin/helm \
   && rm -rf /var/cache/apk/* /tmp/*
+
+COPY --from=envtpl /bin/envtpl /usr/local/bin/envtpl
